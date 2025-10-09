@@ -3,16 +3,12 @@
 1. **Code Execution & Output**
    After running your index.js script:
    a. **What exact text does the console display when the document is inserted?**
-   
-      =========================================================
-   
+
        Query result: {
           _id: new ObjectId('68e8272df938140df8a30119'),
           name: 'Alice',
           age: 25
         }
-   
-      =========================================================
    
    b. **What _id value is automatically assigned to the document?**
       The _id value is new ObjectId('68e8272df938140df8a30119').
@@ -45,4 +41,5 @@
        The exact text of the ECONNREFUSED is Error: Connection Refused.
 
 5. MongoDB Shell Query
+
 
