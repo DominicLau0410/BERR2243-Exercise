@@ -95,10 +95,26 @@
          }
       ]
 
+5. **File System & Dependencies**
 
+   a. **What is the absolute path to your project’s package-lock.json file?**
 
+      C:\Users\JFLau04\Degree Y2S2 - Database\Week_1_Exercise\package-lock.json
+   
+   b. **What exact version of the mongodb driver is installed?**
 
+      6.20.0
 
+6. **Troubleshooting Practice**
+   Stop the MongoDB service and run the script.
+   
+   a. **What error occurs?**
+   
+      The error message is:
+      Error: MongoServerSelectionError: connect ECONNREFUSED 127.0.0.1:27017
 
+   b. **What command restarts the service?**
+
+      net start MongoDB
 
 
