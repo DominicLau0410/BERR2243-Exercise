@@ -28,12 +28,10 @@
 
       In order to investigate the result of this situation, I make the "await client.connect()" become comment and add the "await client.close()":
 
-       =========================================================
        //await client.connect();
        //console.log("Connected to MongoDB!");
         
        await client.close();
-       =========================================================
 
       The error message is:
       Error: MongoNotConnectedError: Client must be connected before running operations
@@ -68,8 +66,7 @@
       
    b. **What command did you use? Paste the full output.**
    
-      =====================================================================================================================================================
-      C:\Users\JFLau04>mongosh
+      ```C:\Users\JFLau04>mongosh
       Current Mongosh Log ID: 68e85d041fdde8ae12cebea3
       Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.8
       Using MongoDB:          8.2.1
@@ -95,7 +92,6 @@
             age: 2004
          }
       ]
-   =====================================================================================================================================================
 
 6. **File System & Dependencies**
 
@@ -118,6 +114,7 @@
    b. **What command restarts the service?**
 
       net start MongoDB
+
 
 
 
