@@ -4,9 +4,12 @@ async function main() {
     const uri = "mongodb://127.0.0.1:27017";
     const client = new MongoClient(uri);
     
+    const start = Date.now();
+
     try {
         await client.connect();
-        console.log("Connected to MongoDB!");
+        const duration  = Date.now() - start;
+        console.log(`Connected to MongoDB! (${duration} ms)`);
 
         const db = client.db("testDB");
         const collection = db.collection("users");
