@@ -68,6 +68,7 @@
       
    b. **What command did you use? Paste the full output.**
    
+      =====================================================================================================================================================
       C:\Users\JFLau04>mongosh
       Current Mongosh Log ID: 68e85d041fdde8ae12cebea3
       Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.8
@@ -94,8 +95,9 @@
             age: 2004
          }
       ]
+   =====================================================================================================================================================
 
-5. **File System & Dependencies**
+6. **File System & Dependencies**
 
    a. **What is the absolute path to your project’s package-lock.json file?**
 
@@ -105,7 +107,7 @@
 
       6.20.0
 
-6. **Troubleshooting Practice**
+7. **Troubleshooting Practice**
    Stop the MongoDB service and run the script.
    
    a. **What error occurs?**
@@ -116,5 +118,6 @@
    b. **What command restarts the service?**
 
       net start MongoDB
+
 
 
