@@ -40,6 +40,11 @@
    b. **What is the exact text of the error code (e.g., ECONNREFUSED)?**
        The exact text of the ECONNREFUSED is Error: Connection Refused.
 
-5. MongoDB Shell Query
+5. **MongoDB Shell Query**
+   Use the MongoDB shell (not Compass) to:
+   a. **List all documents in the testDB.users collection.**
+   b. **What command did you use? Paste the full output.**
+   
+
 
 
