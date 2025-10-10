@@ -94,7 +94,7 @@
          }
       ]
 
-6. **File System & Dependencies**
+5. **File System & Dependencies**
 
    a. **What is the absolute path to your project’s package-lock.json file?**
 
@@ -104,7 +104,7 @@
 
       6.20.0
 
-7. **Troubleshooting Practice**
+6. **Troubleshooting Practice**
    Stop the MongoDB service and run the script.
    
    a. **What error occurs?**
@@ -116,15 +116,62 @@
 
       net start MongoDB
 
-8. **GitHub Repository Structure**
+7. **GitHub Repository Structure**
    On GitHub, navigate to your repository’s.
    
    a. **What timestamp is listed for your last commit?**
 
-
+      The timestamp listed for my last commit is 10 Oct 2025.
 
    b. **How many files are present in this branch?**
 
+      There are 5 files in this branch.
 
+8. **Performance Observation**
+   Time how long it takes for the script to print "Connected to MongoDB!".
+   
+   a. **What is the duration (in milliseconds)?**
 
+      The coding have been modify to calculate the duration.
 
+      ```
+      const start = Date.now();
+
+      try {
+          await client.connect();
+          const duration  = Date.now() - start;
+          console.log(`Connected to MongoDB! (${duration} ms)`);
+
+      The duration is 35 ms.
+
+   b. **Does this time change if you run the script again? Why?**
+      The duration different when the sript run again. 
+
+      ```
+      Connected to MongoDB! (38 ms)
+      Document inserted!
+      Query result: {
+        _id: new ObjectId('68e857a5835200e6a56cfdb1'),
+        name: 'Alice',
+        age: 25
+      }
+
+      ```
+      Connected to MongoDB! (26 ms)
+      Document inserted!
+      Query result: {
+        _id: new ObjectId('68e857a5835200e6a56cfdb1'),
+        name: 'Alice',
+        age: 25
+      }
+
+      ```
+      Connected to MongoDB! (27 ms)
+      Document inserted!
+      Query result: {
+        _id: new ObjectId('68e857a5835200e6a56cfdb1'),
+        name: 'Alice',
+        age: 25
+      }
+   
+      This is because the first time execution of the coding may include the time to initialize and connect to the MongoDB. After that, the duration will become stabilize. However, the duration may vary because of the computer performance. 
