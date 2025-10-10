@@ -93,7 +93,8 @@
             age: 2004
          }
       ]
-
+      ```
+      
 5. **File System & Dependencies**
 
    a. **What is the absolute path to your project’s package-lock.json file?**
@@ -142,6 +143,8 @@
           const duration  = Date.now() - start;
           console.log(`Connected to MongoDB! (${duration} ms)`);
 
+      ```
+
       The duration is 35 ms.
 
    b. **Does this time change if you run the script again? Why?**
@@ -155,7 +158,7 @@
         name: 'Alice',
         age: 25
       }
-
+      ```
       ```
       Connected to MongoDB! (26 ms)
       Document inserted!
@@ -164,7 +167,7 @@
         name: 'Alice',
         age: 25
       }
-
+      ```
       ```
       Connected to MongoDB! (27 ms)
       Document inserted!
@@ -173,5 +176,7 @@
         name: 'Alice',
         age: 25
       }
+      ```
+      
+      This is because the first time execution of the coding may include the time to initialize and connect to the MongoDB. After that, the duration will become stabilize. However, the duration may vary because of the computer performance.
    
-      This is because the first time execution of the coding may include the time to initialize and connect to the MongoDB. After that, the duration will become stabilize. However, the duration may vary because of the computer performance. 
