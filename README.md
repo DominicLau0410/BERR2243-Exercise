@@ -1,182 +1,47 @@
-﻿# Week_1_Exercise
+﻿# Week_2_Exercise
 
-1. **Code Execution & Output**
+**JSON Questions**
+1. **Explain what is CRUD operations and how it is relates to the mongo functions in the exercise.**
 
-   After running your index.js script:
+   CRUD operations stand by Create, Read, Update and Delete. This is the basic operations to manage data.
+   In the exercise, the mongo function for each operation:
+   Create   : insertOne()
+   Read     : find()
+   Update   : updateOne()
+   Delete   : deleteOne()
 
-   a. **What exact text does the console display when the document is inserted?**
+2. **Identify all the mongo operators used in the exercise, then explain the usage for each.**
 
-       Query result: {
-          _id: new ObjectId('68e857a5835200e6a56cfdb1'),
-          name: 'Alice',
-          age: 25
-        }
+   $gte     : Greater than or equal
+   $inc     : Increment
+
+3. **Replace the mongo functions in Task 5 to updateMany instead of updateOne, compare the difference based on the result in console and the mongo compass.**
    
-   b. **What _id value is automatically assigned to the document?**
+   The coding is modified:
+   ```
+   //Task 5: Update
+        const updatedResult = await db.collection('drivers').updateMany(
+            { isAvailable: true },
+            { $inc: { rating: 0.1 } },
+        );
+        console.log(`Driver updated: ${updatedResult.modifiedCount}`)
+   ```
 
-      The _id value is new ObjectId('68e857a5835200e6a56cfdb1'),
+   The data inside MongoDB was cleared manually and the coding is re-running again to ensure that the results of this experiment were not affected by previous operations.
 
-2. **Modify and Observe**
+   According to the Figure 3, Figure 5.1, Figure 5.2, Figure 6.1 and Figure 6.2, 
+   updateMany() be able to update several documents, however updateOne() only can update 1 document. 
 
-   Change the name field in index.js to your own name and the age to your birth year. Run the script again.
-
-   a. **What new _id is generated for this document?**
-
-      The new _id is new ObjectId('68e85816b3a7f50572932f36'),
+4. **Replace the mongo functions in Task 6 to deleteMany instead of deleteOne, compare the difference based on the result in console and the mongo compass.**
    
-   b. **What error occurs if you forget to call await client.connect()?**
+   The coding is modified:
+   ```
+   //Task 6: Delete
+        const deleteResult = await db.collection('drivers').deleteMany({ isAvailable: false });
+        console.log(`Driver deleted: ${deleteResult.deletedCount}`);
+   ```
 
-      In order to investigate the result of this situation, I make the "await client.connect()" become comment and add the "await client.close()":
+   The experiment is continue using the data from Question 3.
 
-       //await client.connect();
-       //console.log("Connected to MongoDB!");
-        
-       await client.close();
-
-      The error message is:
-      Error: MongoNotConnectedError: Client must be connected before running operations
-
-3. **MongoDB Connection Failure**
-
-   Intentionally break the MongoDB connection string (e.g., change the port to 27018).
-
-   a. **What error message does NodeJS throw?**
-
-      The error message is:
-      Error: MongoServerSelectionError: connect ECONNREFUSED 127.0.0.1:27018
-   
-   b. **What is the exact text of the error code (e.g., ECONNREFUSED)?**
-
-      The exact text of the ECONNREFUSED is Error: Connection Refused.
-
-4. **MongoDB Shell Query**
-
-   Use the MongoDB shell (not Compass) to:
-
-   a. **List all documents in the testDB.users collection.**
-
-        [
-           { _id: ObjectId('68e857a5835200e6a56cfdb1'), name: 'Alice', age: 25 },
-           {
-             _id: ObjectId('68e85816b3a7f50572932f36'),
-             name: 'Lau Jian Fong',
-             age: 2004
-           }
-         ]
-      
-   b. **What command did you use? Paste the full output.**
-   
-      ```
-      C:\Users\JFLau04>mongosh
-      Current Mongosh Log ID: 68e85d041fdde8ae12cebea3
-      Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.5.8
-      Using MongoDB:          8.2.1
-      Using Mongosh:          2.5.8
-      
-      For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
-      
-      ------
-         The server generated these startup warnings when booting
-         2025-10-09T18:27:22.390+08:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
-      ------
-      
-      test> use testDB
-      switched to db testDB
-      testDB> show collections
-      users
-      testDB> db.users.find()
-      [
-         { _id: ObjectId('68e857a5835200e6a56cfdb1'), name: 'Alice', age: 25 },
-         {
-            id: ObjectId('68e85816b3a7f50572932f36'),
-            name: 'Lau Jian Fong',
-            age: 2004
-         }
-      ]
-      ```
-      
-5. **File System & Dependencies**
-
-   a. **What is the absolute path to your project’s package-lock.json file?**
-
-      C:\Users\JFLau04\Degree Y2S2 - Database\Week_1_Exercise\package-lock.json
-   
-   b. **What exact version of the mongodb driver is installed?**
-
-      6.20.0
-
-6. **Troubleshooting Practice**
-   Stop the MongoDB service and run the script.
-   
-   a. **What error occurs?**
-   
-      The error message is:
-      Error: MongoServerSelectionError: connect ECONNREFUSED 127.0.0.1:27017
-
-   b. **What command restarts the service?**
-
-      net start MongoDB
-
-7. **GitHub Repository Structure**
-   On GitHub, navigate to your repository’s.
-   
-   a. **What timestamp is listed for your last commit?**
-
-      The timestamp listed for my last commit is 10 Oct 2025.
-
-   b. **How many files are present in this branch?**
-
-      There are 5 files in this branch.
-
-8. **Performance Observation**
-   Time how long it takes for the script to print "Connected to MongoDB!".
-   
-   a. **What is the duration (in milliseconds)?**
-
-      The coding have been modify to calculate the duration.
-
-      ```
-      const start = Date.now();
-
-      try {
-          await client.connect();
-          const duration  = Date.now() - start;
-          console.log(`Connected to MongoDB! (${duration} ms)`);
-
-      ```
-
-      The duration is 35 ms.
-
-   b. **Does this time change if you run the script again? Why?**
-      The duration different when the sript run again. 
-
-      ```
-      Connected to MongoDB! (38 ms)
-      Document inserted!
-      Query result: {
-        _id: new ObjectId('68e857a5835200e6a56cfdb1'),
-        name: 'Alice',
-        age: 25
-      }
-      ```
-      ```
-      Connected to MongoDB! (26 ms)
-      Document inserted!
-      Query result: {
-        _id: new ObjectId('68e857a5835200e6a56cfdb1'),
-        name: 'Alice',
-        age: 25
-      }
-      ```
-      ```
-      Connected to MongoDB! (27 ms)
-      Document inserted!
-      Query result: {
-        _id: new ObjectId('68e857a5835200e6a56cfdb1'),
-        name: 'Alice',
-        age: 25
-      }
-      ```
-      
-      This is because the first time execution of the coding may include the time to initialize and connect to the MongoDB. After that, the duration will become stabilize. However, the duration may vary because of the computer performance.
-   
+   According to the Figure 4.1, Figure 4.2, Figure 7.1 and Figure 7.2, 
+   deleteMany() be able to delete several documents, however deleteOne() only can delete 1 document. 
