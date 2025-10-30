@@ -1,58 +1,13 @@
-const { MongoClient } = require('mongodb');
+const express = require('express');
+const { MongoClient, ObjectId } = require('mongodb');
+const port = 3000;
 
-const drivers = [
-    {
-        name: "John Doe",
-        vehicleType: "Sedan",
-        isAvailable: true,
-        rating: 4.8
-    },
-    {
-        name: "Alice Smith",
-        vehicleType: "SUV",
-        isAvailable: false,
-        rating: 4.5
-    },
-    {
-        name: "Arif",
-        vehicleType: "Volvo",
-        isAvailable: false,
-        rating: 2.0
-    },
-    {
-        name: "Charan",
-        vehicleType: "Maserati",
-        isAvailable: true,
-        rating: 3.5
-    },
-    {
-        name: "Nickson Goh",
-        vehicleType: "Tesla",
-        isAvailable: true,
-        rating: 4.0
-    }
-]
-console.log("All Drivers: ");
-console.log(JSON.stringify(drivers, null, 2));
+const app = express();
+app.use(express.json());
 
-//Task 2: JSON Data Operations
-// Show Driver's Name
-console.log("\nAll Driver Names:");
-drivers.forEach((element) => console.log(element.name));
+let db;
 
-// Add New Driver
-drivers.push(
-    {
-        name: "Dominic",
-        vehicleType: "Myvi",
-        isAvailable: true,
-        rating: 3.5
-    }
-);
-console.log("\nAll Drivers: ");
-console.log(JSON.stringify(drivers, null, 2));
-
-async function main() {
+async function connectToMongoDB() {
     const uri = "mongodb://127.0.0.1:27017";
     const client = new MongoClient(uri);
     
@@ -63,37 +18,119 @@ async function main() {
         const duration  = Date.now() - start;
         console.log(`Connected to MongoDB! (${duration} ms)`);
     
-        const db = client.db("testDB");
-        const driversCollection = db.collection("drivers");
-        
-        //Task 3: Insert Drivers into MongoDB
-        for (const driver of drivers) {
-            const result = await driversCollection.insertOne(driver);
-            console.log(`New driver created with result: ${result.insertedId}`);
-        };
-        
-        //Task 4: Query and Update Drivers
-        const availableDrivers = await db.collection('drivers').find({
-            isAvailable: true,
-            rating: { $gte: 4.5 }
-        }).toArray();
-        console.log("Available drivers:", availableDrivers);
-        
-        //Task 5: Update
-        const updatedResult = await db.collection('drivers').updateOne(
-            { isAvailable: true },
-            { $inc: { rating: 0.1 } },
-        );
-        console.log(`Driver updated: ${updatedResult.modifiedCount}`)
-        
-        //Task 6: Delete
-        const deleteResult = await db.collection('drivers').deleteOne({ isAvailable: false });
-        console.log(`Driver deleted: ${deleteResult.deletedCount}`);
+        db = client.db("testDB");
     } catch (err) {
         console.error("Error:", err);
-    } finally {
-        await client.close();
     }
 }
 
-main();
+connectToMongoDB();
+
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});
+
+// GET /rides - Fetch all rides
+app.get( '/rides', async (req, res) => {
+    try {
+        const rides = await db.collection('rides').find().toArray();
+        res.status(200).json(rides);
+    } catch (err) {
+        res.status(500).json({ error: "Failed to fetch rides" });
+    }
+});
+
+// POST /rides - Create a new ride
+app.post( '/rides', async (req, res) => {
+    try {
+        const result = await db.collection('rides').insertOne(req.body);
+        res.status(201).json({id: result.insertedId});
+    } catch (err) {
+        res.status(400).json({ error: "Invalid ride data" });
+    }
+});
+
+// PATCH /rides/:id - Update ride status
+app.patch( '/rides/:id', async (req, res) => {
+    try {
+        const result = await db.collection('rides').updateOne(
+            { _id: new ObjectId(req.params.id) },
+            { $set: { status: req.body.status } }
+        );
+
+        if (result.modifiedCount === 0) {
+            return res.status(404).json({ error: "Ride not found" });
+        }
+        res.status(200).json({ updated: result.modifiedCount });
+    } catch (err) {
+        // Handle invalid ID format or DB errors
+        res.status(400).json({ error: "Invalid ride ID or data" });
+    }
+});
+
+// DELETE /rides/:id - Cancel a ride
+app.delete( '/rides/:id', async (req, res) => {
+    try {
+        const result = await db.collection('rides').deleteOne(
+            { _id: new ObjectId(req.params.id) }
+        );
+
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ error: "Ride not found" });
+        }
+        res.status(200).json({ deleted: result.deletedCount });
+    } catch (err) {
+        res.status(400).json({ error: "Invalid ride ID or data" });
+    }
+});
+
+// USER
+app.get( '/users', async (req, res) => {
+    try {
+        const users = await db.collection('users').find().toArray();
+        res.status(200).json(users);
+    } catch (err) {
+        res.status(500).json({ error: "Failed to fetch users" });
+    }
+});
+
+app.post( '/users', async (req, res) => {
+    try {
+        const result = await db.collection('users').insertOne(req.body);
+        res.status(201).json({id: result.insertedId});
+    } catch (err) {
+        res.status(400).json({ error: "Invalid user data" });
+    }
+});
+
+app.patch( '/users/:id', async (req, res) => {
+    try {
+        const result = await db.collection('users').updateOne(
+            { _id: new ObjectId(req.params.id) },
+            { $set: { status: req.body.status } }
+        );
+
+        if (result.modifiedCount === 0) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        res.status(200).json({ updated: result.modifiedCount });
+    } catch (err) {
+        // Handle invalid ID format or DB errors
+        res.status(400).json({ error: "Invalid user ID or data" });
+    }
+});
+
+app.delete( '/users/:id', async (req, res) => {
+    try {
+        const result = await db.collection('users').deleteOne(
+            { _id: new ObjectId(req.params.id) }
+        );
+
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        res.status(200).json({ deleted: result.deletedCount });
+    } catch (err) {
+        res.status(400).json({ error: "Invalid user ID or data" });
+    }
+});
