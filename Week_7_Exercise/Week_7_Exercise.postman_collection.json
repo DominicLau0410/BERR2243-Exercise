@@ -1,0 +1,104 @@
+{
+	"info": {
+		"_postman_id": "55def5f1-8607-4f5c-958a-abd94ff0a02b",
+		"name": "Week_7_Exercise",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49659522",
+		"_collection_link": "https://dominiclau0410-916102.postman.co/workspace/LAU-JIAN-FONG's-Workspace~308552b7-6c96-40fc-8550-9ac891aaa3af/collection/49659522-55def5f1-8607-4f5c-958a-abd94ff0a02b?action=share&source=collection_link&creator=49659522"
+	},
+	"item": [
+		{
+			"name": "http://127.0.0.1:3000/analytics/passengers",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Transfer-Encoding",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:3000/analytics/passengers",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"analytics",
+						"passengers"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "testDB_Users",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Transfer-Encoding",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:3000/analytics/passengers",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"analytics",
+								"passengers"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "198"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"c6-wk6dtwpB5XrTKpYZmtmfaQxxnIU\""
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 21 Dec 2025 02:44:24 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"name\": \"Charlie\",\n        \"totalRides\": 2,\n        \"totalFare\": 38,\n        \"avgDistance\": 9.8\n    },\n    {\n        \"name\": \"Alice\",\n        \"totalRides\": 2,\n        \"totalFare\": 38,\n        \"avgDistance\": 10.35\n    },\n    {\n        \"name\": \"Bob\",\n        \"totalRides\": 1,\n        \"totalFare\": 19,\n        \"avgDistance\": 9.8\n    }\n]"
+				}
+			]
+		}
+	]
+}

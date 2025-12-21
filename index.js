@@ -150,3 +150,44 @@ app.delete('/admin/users/:id', authenticate, authorize(['admin']), async (req, r
     console.log("admin only");
     return res.status(200).send("admin access");
 });
+
+app.get('/analytics/passengers', async (req, res) => {
+    try {
+        const pipeline = [
+            {$lookup: {
+                from: 'rides',
+                localField: '_id',
+                foreignField: 'user_id',
+                as: 'rides'
+            }},
+            { $unwind: { path: '$rides' } },
+            { $match: {
+                'rides.status': { $eq: 'completed' }
+            }},
+            { $group: {
+                _id: '$_id',
+                name: { $first: '$username' },
+                totalRides: { $sum: 1 },
+                totalFare: { $sum: '$rides.fare' },
+                avgDistance: { $avg: '$rides.distance' }
+            }},
+            { $project: {
+                _id: 0,
+                name: 1,
+                totalRides: 1,
+                totalFare: { $round: ['$totalFare', 2] },
+                avgDistance: { $round: ['$avgDistance', 2] }
+            }}
+        ]
+
+        const result = await db
+            .collection("users")
+            .aggregate(pipeline)
+            .toArray();
+        res.status(200).json(result);
+        console.log(result);
+    }
+    catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+});
